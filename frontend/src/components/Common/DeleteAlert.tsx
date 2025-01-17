@@ -6,67 +6,67 @@ import {
   AlertDialogHeader,
   AlertDialogOverlay,
   Button,
-} from "@chakra-ui/react"
-import { useMutation, useQueryClient } from "@tanstack/react-query"
-import React from "react"
-import { useForm } from "react-hook-form"
+} from '@chakra-ui/react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import React from 'react';
+import { useForm } from 'react-hook-form';
 
-import { ItemsService, UsersService } from "../../client"
-import useCustomToast from "../../hooks/useCustomToast"
+import { ItemsService, UsersService } from '../../client';
+import useCustomToast from '../../hooks/useCustomToast';
 
 interface DeleteProps {
-  type: string
-  id: number
-  isOpen: boolean
-  onClose: () => void
+  type: string;
+  id: number;
+  isOpen: boolean;
+  onClose: () => void;
 }
 
 const Delete = ({ type, id, isOpen, onClose }: DeleteProps) => {
-  const queryClient = useQueryClient()
-  const showToast = useCustomToast()
-  const cancelRef = React.useRef<HTMLButtonElement | null>(null)
+  const queryClient = useQueryClient();
+  const showToast = useCustomToast();
+  const cancelRef = React.useRef<HTMLButtonElement | null>(null);
   const {
     handleSubmit,
     formState: { isSubmitting },
-  } = useForm()
+  } = useForm();
 
   const deleteEntity = async (id: number) => {
-    if (type === "Item") {
-      await ItemsService.deleteItem({ id: id })
-    } else if (type === "User") {
-      await UsersService.deleteUser({ userId: id })
+    if (type === 'Item') {
+      await ItemsService.deleteItem({ id: id });
+    } else if (type === 'User') {
+      await UsersService.deleteUser({ userId: id });
     } else {
-      throw new Error(`Unexpected type: ${type}`)
+      throw new Error(`Unexpected type: ${type}`);
     }
-  }
+  };
 
   const mutation = useMutation({
     mutationFn: deleteEntity,
     onSuccess: () => {
       showToast(
-        "Success",
+        'Success',
         `The ${type.toLowerCase()} was deleted successfully.`,
-        "success",
-      )
-      onClose()
+        'success',
+      );
+      onClose();
     },
     onError: () => {
       showToast(
-        "An error occurred.",
+        'An error occurred.',
         `An error occurred while deleting the ${type.toLowerCase()}.`,
-        "error",
-      )
+        'error',
+      );
     },
     onSettled: () => {
       queryClient.invalidateQueries({
-        queryKey: [type === "Item" ? "items" : "users"],
-      })
+        queryKey: [type === 'Item' ? 'items' : 'users'],
+      });
     },
-  })
+  });
 
   const onSubmit = async () => {
-    mutation.mutate(id)
-  }
+    mutation.mutate(id);
+  };
 
   return (
     <>
@@ -74,7 +74,7 @@ const Delete = ({ type, id, isOpen, onClose }: DeleteProps) => {
         isOpen={isOpen}
         onClose={onClose}
         leastDestructiveRef={cancelRef}
-        size={{ base: "sm", md: "md" }}
+        size={{ base: 'sm', md: 'md' }}
         isCentered
       >
         <AlertDialogOverlay>
@@ -82,9 +82,9 @@ const Delete = ({ type, id, isOpen, onClose }: DeleteProps) => {
             <AlertDialogHeader>Delete {type}</AlertDialogHeader>
 
             <AlertDialogBody>
-              {type === "User" && (
+              {type === 'User' && (
                 <span>
-                  All items associated with this user will also be{" "}
+                  All items associated with this user will also be{' '}
                   <strong>permantly deleted. </strong>
                 </span>
               )}
@@ -107,7 +107,7 @@ const Delete = ({ type, id, isOpen, onClose }: DeleteProps) => {
         </AlertDialogOverlay>
       </AlertDialog>
     </>
-  )
-}
+  );
+};
 
-export default Delete
+export default Delete;

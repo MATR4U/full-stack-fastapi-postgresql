@@ -1,17 +1,27 @@
-import type { ComponentType, ElementType } from "react"
+import { Button, Flex, Icon, useDisclosure } from '@chakra-ui/react';
+import { FaPlus } from 'react-icons/fa';
 
-import { Button, Flex, Icon, useDisclosure } from "@chakra-ui/react"
-import { FaPlus } from "react-icons/fa"
+import AddUser from '../Admin/AddUser/AddUser';
+import AddItem from '../Items/AddItem';
 
 interface NavbarProps {
-  type: string
-  addModalAs: ComponentType | ElementType
+  type: string;
 }
 
-const Navbar = ({ type, addModalAs }: NavbarProps) => {
-  const addModal = useDisclosure()
+// Navbar component
+const Navbar = ({ type }: NavbarProps) => {
+  const addUserModal = useDisclosure();
+  const addItemModal = useDisclosure();
 
-  const AddModal = addModalAs
+  // Handle button click based on type
+  const handleButtonClick = () => {
+    if (type === 'User') {
+      addUserModal.onOpen();
+    } else {
+      addItemModal.onOpen();
+    }
+  };
+
   return (
     <>
       <Flex py={8} gap={4}>
@@ -25,15 +35,16 @@ const Navbar = ({ type, addModalAs }: NavbarProps) => {
         <Button
           variant="primary"
           gap={1}
-          fontSize={{ base: "sm", md: "inherit" }}
-          onClick={addModal.onOpen}
+          fontSize={{ base: 'sm', md: 'inherit' }}
+          onClick={handleButtonClick}
         >
           <Icon as={FaPlus} /> Add {type}
         </Button>
-        <AddModal isOpen={addModal.isOpen} onClose={addModal.onClose} />
+        <AddUser isOpen={addUserModal.isOpen} onClose={addUserModal.onClose} />
+        <AddItem isOpen={addItemModal.isOpen} onClose={addItemModal.onClose} />
       </Flex>
     </>
-  )
-}
+  );
+};
 
-export default Navbar
+export default Navbar;

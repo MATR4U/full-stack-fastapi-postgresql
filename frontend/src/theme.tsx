@@ -1,32 +1,32 @@
-import { extendTheme } from "@chakra-ui/react"
+import { extendTheme } from '@chakra-ui/react';
 
 const disabledStyles = {
   _disabled: {
-    backgroundColor: "ui.main",
+    backgroundColor: 'ui.main',
   },
-}
+};
 
 const theme = extendTheme({
   colors: {
     ui: {
-      main: "#009688",
-      secondary: "#EDF2F7",
-      success: "#48BB78",
-      danger: "#E53E3E",
-      light: "#FAFAFA",
-      dark: "#1A202C",
-      darkSlate: "#252D3D",
-      dim: "#A0AEC0",
+      main: '#009688',
+      secondary: '#EDF2F7',
+      success: '#48BB78',
+      danger: '#E53E3E',
+      light: '#FAFAFA',
+      dark: '#1A202C',
+      darkSlate: '#252D3D',
+      dim: '#A0AEC0',
     },
   },
   components: {
     Button: {
       variants: {
         primary: {
-          backgroundColor: "ui.main",
-          color: "ui.light",
+          backgroundColor: 'ui.main',
+          color: 'ui.light',
           _hover: {
-            backgroundColor: "#00766C",
+            backgroundColor: '#00766C',
           },
           _disabled: {
             ...disabledStyles,
@@ -36,10 +36,10 @@ const theme = extendTheme({
           },
         },
         danger: {
-          backgroundColor: "ui.danger",
-          color: "ui.light",
+          backgroundColor: 'ui.danger',
+          color: 'ui.light',
           _hover: {
-            backgroundColor: "#E32727",
+            backgroundColor: '#E32727',
           },
         },
       },
@@ -49,13 +49,13 @@ const theme = extendTheme({
         enclosed: {
           tab: {
             _selected: {
-              color: "ui.main",
+              color: 'ui.main',
             },
           },
         },
       },
     },
   },
-})
+});
 
-export default theme
+export default theme;

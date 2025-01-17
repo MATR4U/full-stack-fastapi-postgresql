@@ -12,35 +12,34 @@ import {
   Th,
   Thead,
   Tr,
-} from "@chakra-ui/react"
-import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query"
-import { createFileRoute } from "@tanstack/react-router"
+} from '@chakra-ui/react';
+import { useQueryClient, useSuspenseQuery } from '@tanstack/react-query';
+import { createFileRoute } from '@tanstack/react-router';
 
-import { Suspense } from "react"
-import { type UserPublic, UsersService } from "../../client"
-import AddUser from "../../components/Admin/AddUser"
-import ActionsMenu from "../../components/Common/ActionsMenu"
-import Navbar from "../../components/Common/Navbar"
+import { Suspense } from 'react';
+import { type UserPublic, UsersService } from '../../client';
+import ActionsMenu from '../../components/Common/ActionsMenu';
+import Navbar from '../../components/Common/Navbar';
 
-export const Route = createFileRoute("/_layout/admin")({
+export const Route = createFileRoute('/_layout/admin')({
   component: Admin,
-})
+});
 
 const MembersTableBody = () => {
-  const queryClient = useQueryClient()
-  const currentUser = queryClient.getQueryData<UserPublic>(["currentUser"])
+  const queryClient = useQueryClient();
+  const currentUser = queryClient.getQueryData<UserPublic>(['currentUser']);
 
   const { data: users } = useSuspenseQuery({
-    queryKey: ["users"],
+    queryKey: ['users'],
     queryFn: () => UsersService.readUsers({}),
-  })
+  });
 
   return (
     <Tbody>
       {users.data.map((user) => (
         <Tr key={user.id}>
-          <Td color={!user.full_name ? "ui.dim" : "inherit"}>
-            {user.full_name || "N/A"}
+          <Td color={!user.full_name ? 'ui.dim' : 'inherit'}>
+            {user.full_name || 'N/A'}
             {currentUser?.id === user.id && (
               <Badge ml="1" colorScheme="teal">
                 You
@@ -48,17 +47,17 @@ const MembersTableBody = () => {
             )}
           </Td>
           <Td>{user.email}</Td>
-          <Td>{user.is_superuser ? "Superuser" : "User"}</Td>
+          <Td>{user.is_superuser ? 'Superuser' : 'User'}</Td>
           <Td>
             <Flex gap={2}>
               <Box
                 w="2"
                 h="2"
                 borderRadius="50%"
-                bg={user.is_active ? "ui.success" : "ui.danger"}
+                bg={user.is_active ? 'ui.success' : 'ui.danger'}
                 alignSelf="center"
               />
-              {user.is_active ? "Active" : "Inactive"}
+              {user.is_active ? 'Active' : 'Inactive'}
             </Flex>
           </Td>
           <Td>
@@ -71,8 +70,8 @@ const MembersTableBody = () => {
         </Tr>
       ))}
     </Tbody>
-  )
-}
+  );
+};
 
 const MembersBodySkeleton = () => {
   return (
@@ -85,18 +84,18 @@ const MembersBodySkeleton = () => {
         ))}
       </Tr>
     </Tbody>
-  )
-}
+  );
+};
 
 function Admin() {
   return (
     <Container maxW="full">
-      <Heading size="lg" textAlign={{ base: "center", md: "left" }} pt={12}>
+      <Heading size="lg" textAlign={{ base: 'center', md: 'left' }} pt={12}>
         User Management
       </Heading>
-      <Navbar type={"User"} addModalAs={AddUser} />
+      <Navbar type={'User'} />
       <TableContainer>
-        <Table fontSize="md" size={{ base: "sm", md: "md" }}>
+        <Table fontSize="md" size={{ base: 'sm', md: 'md' }}>
           <Thead>
             <Tr>
               <Th width="20%">Full name</Th>
@@ -112,5 +111,5 @@ function Admin() {
         </Table>
       </TableContainer>
     </Container>
-  )
+  );
 }
